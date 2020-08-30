@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/data-management/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/data-management/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/elan/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/elan/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/flex/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/flex/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/lameta/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/lameta/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/linguistics-data-management/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/code/</loc>
+    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/mapping-unemployment-generosity-across-the-oecd/</loc>
+    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rstats/</loc>
+    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tutorial/</loc>
+    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/collect-twitter-data-using-tags/</loc>
+    <lastmod>2020-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/social-media/</loc>
+    <lastmod>2020-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tags/</loc>
+    <lastmod>2020-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/temp0st/</loc>
+    <lastmod>2020-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/twitter/</loc>
+    <lastmod>2020-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/making-a-covid19-map-in-r-using-shiny-and-leaflet/</loc>
+    <lastmod>2020-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/test/</loc>
+    <lastmod>2020-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/harvest-tweets/</loc>
+    <lastmod>2020-05-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/info/</loc>
+    <lastmod>2020-03-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/about/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/about/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/articles/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/aviato/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/bachman/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/coderag/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/pied-piper/</loc>
+    <lastmod>2016-10-02T22:55:05-04:00</lastmod>
+  </url>
+  
+</urlset>

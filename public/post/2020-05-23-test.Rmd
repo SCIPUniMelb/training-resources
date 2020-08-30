@@ -1,0 +1,11 @@
+---
+title: test
+author: g
+date: '2020-05-23'
+slug: test
+categories: []
+tags: []
+comments: no
+showcomments: yes
+showpagemeta: yes
+---

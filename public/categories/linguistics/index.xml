@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linguistics on </title>
+    <link>/categories/linguistics/</link>
+    <description>Recent content in Linguistics on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/linguistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linguistics Data Management.</title>
+      <link>/blog/linguistics-data-management/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/linguistics-data-management/</guid>
+      <description>Linguistic tools training These videos form part of a training course on Linguistic Data Management run by Nick Thieberger at the University of Melbourne on March 26th 2020.
+The course was sponsored by SCIP, the Research Unit for Indigenous Language, and the Pacific and Regional Archive for Digital Sources in Endangered Cultures (PARADISEC), and the ARC Centre of Excellence for the Dynamics of Language.
+ Requirements The software demonstrated in these videos include:</description>
+    </item>
+    
+  </channel>
+</rss>

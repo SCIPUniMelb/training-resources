@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+
+<base href="/">
+
+<title>
+   - Evolution of welfare policies in the OECD: An interactive web-based mapping exercise using R and Plotly 
+</title>
+
+<meta name="generator" content="Hugo 0.74.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="en-US">
+ <table width="100%"; border="0">
+  <tr>
+    <td align="left" style="padding: 20px;"><img src="./img/unimelb-logo-small.png"></td>
+    <td align="right" style="padding: 20px;">
+      <a href="https://scip.unimelb.edu.au" target="_blank"><img src="./img/SCIP-logo-small.png" border="0" title="SCIP website"></a>
+      <table width="21%"; border="0">
+        <tr>
+            <td align="left"><a href="https://scip-unimelb.netlify.app/blog/"><img src="./img/back-32x32.png" border="0" title="back"></a></td>    
+            <td align="right"><a href="https://twitter.com/SCIPUniMelb" target="_blank"><img src="./img/twitter_32x32.png" border="0" title="@SCIPUniMelb"></a> &nbsp; </td>
+          </tr>
+        </table>      
+    </td>
+  </tr>
+</table>   
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">Evolution of welfare policies in the OECD: An interactive web-based mapping exercise using R and Plotly</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON JUN 5, 2020 
+      
+      
+      
+      —
+      
+      
+      <a class="meta" href="/categories/code">CODE</a>, 
+      
+      <a class="meta" href="/categories/r">R</a>
+      
+      
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+    
+    
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>JobSeeker and JobKeeper benefits have been at the forefront of the national debate on government assistance in the post-Covid Australian economic landscape. Yet even before the global pandemic hit, welfare benefits were a controversial and often polarizing issue in Australia. Often missing from the national debate though is a discussion around how welfare benefits paid by the Australian government compare with those from other “welfare states” like Norway, France, and the UK. Which countries offer the most generous unemployment and sickness benefits to their citizens? Let’s make a few visualizations and see.</p>
+</div>
+<div id="data-and-libraries" class="section level3">
+<h3>Data and libraries</h3>
+<p>The data for this exercise come from the Comparative Welfare Entitlements Dataset (CWED2), which can be found <a href="/data/cwed_subset.csv">here</a>. We will use the <code>plotly</code> and <code>tidyverse</code> libraries in <code>R</code> to make the plots below. One of the key functionalities of plotly is its web-based interactivity. As you work through the code, be sure to move your cursor on the timelines and circle markers to get a feel for the interactive nature of the plots. You should also use the menu options on the top right corner of the plots to isolate individual data points or get grouped statistics as you interact with the plots. To learn more about plotly and its many implementations (including in Python), check out the official <a href="https://plotly.com/r/">documentation page</a>.</p>
+<pre class="r"><code>## install required packages if you haven&#39;t already
+## install.packages(c(&quot;plotly&quot;, &quot;tidyverse&quot;), dependencies = TRUE)
+
+## call required libraries 
+library(plotly)
+library(tidyverse)
+
+## save dataset in your working directory, import, and check
+welfare_gen &lt;- read_csv(&quot;cwed_subset.csv&quot;)
+glimpse(welfare_gen)</code></pre>
+<pre><code>## Rows: 1,344
+## Columns: 33
+## $ COUNTRY          &lt;chr&gt; &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, …
+## $ `COUNTRY ABBREV` &lt;chr&gt; &quot;AUS&quot;, &quot;AUS&quot;, &quot;AUS&quot;, &quot;AUS&quot;, &quot;AUS&quot;, &quot;AUS&quot;, &quot;AUS&quot;, &quot;AU…
+## $ CCODE            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ YEAR             &lt;dbl&gt; 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978…
+## $ ISOCODE          &lt;dbl&gt; 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, …
+## $ TOTGEN           &lt;dbl&gt; NA, 18.4, 19.1, 20.5, 20.2, 20.2, 21.0, 21.2, 21.2, …
+## $ UEGEN            &lt;dbl&gt; NA, 6.3, 6.7, 7.4, 7.2, 7.2, 7.5, 7.6, 7.6, 7.5, 7.2…
+## $ SKGEN            &lt;dbl&gt; NA, 5.7, 6.0, 6.5, 6.4, 6.3, 6.6, 6.7, 6.6, 6.6, 6.4…
+## $ PGEN             &lt;dbl&gt; NA, 6.4, 6.4, 6.7, 6.6, 6.7, 6.8, 6.9, 7.1, 7.1, 6.9…
+## $ APWWage          &lt;dbl&gt; 4244, 4632, 5257, 6550, 7907, 9071, 10062, 10773, 11…
+## $ US100            &lt;dbl&gt; NA, 0.149, 0.233, 0.268, 0.266, 0.261, 0.289, 0.309,…
+## $ UC1000           &lt;dbl&gt; NA, 0.255, 0.336, 0.575, 0.518, 0.505, 0.627, 0.642,…
+## $ SS100            &lt;dbl&gt; NA, 0.149, 0.233, 0.268, 0.266, 0.261, 0.289, 0.309,…
+## $ SC1000           &lt;dbl&gt; NA, 0.255, 0.336, 0.575, 0.518, 0.505, 0.627, 0.642,…
+## $ MPS100           &lt;dbl&gt; NA, 0.239, 0.237, 0.268, 0.266, NA, 0.289, 0.285, 0.…
+## $ MPC1000          &lt;dbl&gt; NA, 0.392, 0.387, 0.434, 0.405, NA, 0.428, 0.423, 0.…
+## $ SPS100           &lt;dbl&gt; NA, 0.239, 0.237, 0.268, 0.266, 0.261, 0.289, 0.285,…
+## $ SPC1000          &lt;dbl&gt; NA, 0.392, 0.387, 0.434, 0.405, 0.381, 0.428, 0.423,…
+## $ UEQUAL           &lt;dbl&gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ UEDUR            &lt;dbl&gt; NA, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999…
+## $ UEWAIT           &lt;dbl&gt; NA, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, …
+## $ UECOV            &lt;dbl&gt; NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ SICKQUAL         &lt;dbl&gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ SICKDUR          &lt;dbl&gt; NA, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999…
+## $ SICKWAIT         &lt;dbl&gt; NA, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, …
+## $ SICKCOV          &lt;dbl&gt; NA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ PQUAL            &lt;dbl&gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ PFUND            &lt;dbl&gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ AVGPER           &lt;dbl&gt; NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ PENCOV           &lt;dbl&gt; NA, 0.624, 0.627, 0.685, 0.735, 0.767, 0.790, 0.808,…
+## $ MRET             &lt;dbl&gt; NA, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, …
+## $ FRET             &lt;dbl&gt; NA, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, …
+## $ LEXP65           &lt;dbl&gt; 13.75, 14.30, 14.50, 14.60, 14.55, 15.05, 14.95, 15.…</code></pre>
+<p>First, let’s see how unemployment benefit generosity has changed in the period spanning 1970 to 2011 in Australia; one of the model welfare nations in the world. The variable <code>UEGEN</code> is the generosity index for unemployment benefits paid out by the Department of Social Security, and after 1997, Centrelink.</p>
+<pre class="r"><code>## filter by Australia 
+welfare_gen_oz &lt;- welfare_gen %&gt;%
+  filter(COUNTRY == &quot;Australia&quot;)
+
+## plot UEGEN over time
+plot_ly(welfare_gen_oz, x = ~YEAR, y = ~UEGEN, type = &quot;scatter&quot;, mode = &quot;lines&quot;, color = I(&quot;brown&quot;)) %&gt;%
+  layout(title = &quot;Unemployment Benefit Generosity in Australia, 1970-2011&quot;,
+         xaxis = list(title = &quot;Year&quot;),
+         yaxis = list(title = &quot;Benefit Generosity&quot;))</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"248851518a73":["function () ","plotlyVisDat"]},"cur_data":"248851518a73","attrs":{"248851518a73":{"x":{},"y":{},"mode":"lines","color":["brown"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Unemployment Benefit Generosity in Australia, 1970-2011","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Benefit Generosity"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[6.3,6.7,7.4,7.2,7.2,7.5,7.6,7.6,7.5,7.2,7.2,7.1,7.2,7.4,7.4,7.5,7.6,7.7,7.6,7.6,7.7,7.8,7.8,7.7,7.7,7.7,7.7,7.6,7.6,7.6,7.6,7.5,7.5,7.3,7.4,7.4,7.2,7.2,7.1,7.1,7.2],"mode":"lines","type":"scatter","marker":{"color":"rgba(165,42,42,1)","line":{"color":"rgba(165,42,42,1)"}},"textfont":{"color":"rgba(165,42,42,1)"},"error_y":{"color":"rgba(165,42,42,1)"},"error_x":{"color":"rgba(165,42,42,1)"},"line":{"color":"rgba(165,42,42,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Next, let’s see how Australia compares to Norway, France, US and our neighbors New Zealand.</p>
+<pre class="r"><code>## subset dataset by countries of interest
+welfare_gen_nor &lt;- welfare_gen %&gt;%
+  filter(COUNTRY == &quot;Australia&quot; |
+           COUNTRY == &quot;Norway&quot; |
+           COUNTRY == &quot;New Zealand&quot; |
+           COUNTRY == &quot;France&quot; |
+           COUNTRY == &quot;United States&quot;) 
+
+## plot 
+plot_ly(welfare_gen_nor, x = ~YEAR, y = ~UEGEN, type = &quot;scatter&quot;, mode = &quot;lines&quot;, color = ~COUNTRY) %&gt;%
+  layout(title = &quot;Unemployment Benefit Generosity in the OECD, 1970-2011&quot;,
+         xaxis = list(title = &quot;Year&quot;),
+         yaxis = list(title = &quot;Benefit Generosity&quot;))</code></pre>
+<div id="htmlwidget-2" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"visdat":{"24887df5af56":["function () ","plotlyVisDat"]},"cur_data":"24887df5af56","attrs":{"24887df5af56":{"x":{},"y":{},"mode":"lines","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Unemployment Benefit Generosity in the OECD, 1970-2011","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Benefit Generosity"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[6.3,6.7,7.4,7.2,7.2,7.5,7.6,7.6,7.5,7.2,7.2,7.1,7.2,7.4,7.4,7.5,7.6,7.7,7.6,7.6,7.7,7.8,7.8,7.7,7.7,7.7,7.7,7.6,7.6,7.6,7.6,7.5,7.5,7.3,7.4,7.4,7.2,7.2,7.1,7.1,7.2],"mode":"lines","type":"scatter","name":"Australia","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[11.1,10.9,11.1,11.2,11.4,11.5,11.7,11.8,11,11.6,12.1,12.3,12.4,12.5,12.7,12.4,12.1,12.1,10.2,10.3,10.4,10.4,10.4,10.2,10.3,10.6,10.5,11.5,11.4,11.3,11.3,11.4,11.4,11.3,11.1,11.1,11.1],"mode":"lines","type":"scatter","name":"France","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[7.2,7.4,7.6,7.5,7.4,7.5,7.7,7.6,7.5,7.5,7.6,7.6,7.2,7.1,7.1,7.3,7.3,7.2,7.1,7.1,6.9,6.9,6.9,6.9,6.8,6.8,6.7,6.7,7.4,7.3,7.4,7.3,7.3,7.3,7.3,7.2,7.2,7.2,7.1,7.1,7.1],"mode":"lines","type":"scatter","name":"New Zealand","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[9.2,9.3,9.2,9.3,10,11.5,11.6,11.5,11.7,12.2,12.2,12.4,12.5,12.3,13,12.8,13.1,13.1,13.2,13.1,13.4,13.5,13.8,13.8,14,13.8,13.8,14.3,14.4,14.5,14.5,14,13.9,13.6,13.6,14,14.2,14.2,14.2,14.2,13.9],"mode":"lines","type":"scatter","name":"Norway","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[8.1,9.2,9.2,8.9,9.4,9.4,9.3,10.2,10.4,10.3,10.3,10.1,10.4,10.5,10.3,10.1,9.7,9.8,10,10,9.8,10.3,10.2,9.9,10.1,10.2,10.3,10.4,10.6,10.6,10.5,10.3,10.2,10.2,10.2,10.2,10.2,10.2,10.8,10.7,10.6],"mode":"lines","type":"scatter","name":"United States","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Australia (and New Zealand) lags appallingly behind countries like Norway France and the United States when it comes to unemployment welfare generosity. That said, unlike in most OECD countries, job seekers can remain on welfare indefinitely in Australia. There are also a number of other factors to consider such as rental assistance and other services that may be offered to make up for the differences that exist between welfare and unemployment insurance schemes.</p>
+<p>Now, let’s look at how sickness insurance has changed in Australia over the last four decades.</p>
+<pre class="r"><code>welfare_gen_oz &lt;- welfare_gen %&gt;%
+  filter(COUNTRY == &quot;Australia&quot;)
+
+plot_ly(welfare_gen_oz, x = ~YEAR, y = ~SKGEN, type = &quot;scatter&quot;, mode = &quot;lines&quot;, color = I(&quot;brown&quot;)) %&gt;%
+  layout(title = &quot;Sickness Generosity in Australia, 1970-2011&quot;,
+         xaxis = list(title = &quot;Year&quot;),
+         yaxis = list(title = &quot;Sickness Generosity&quot;))</code></pre>
+<div id="htmlwidget-3" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"visdat":{"2488407912a2":["function () ","plotlyVisDat"]},"cur_data":"2488407912a2","attrs":{"2488407912a2":{"x":{},"y":{},"mode":"lines","color":["brown"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Sickness Generosity in Australia, 1970-2011","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Sickness Generosity"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[5.7,6,6.5,6.4,6.3,6.6,6.7,6.6,6.6,6.4,6.3,6.3,6.4,6.5,6.5,6.6,6.6,6.7,6.6,6.7,6.8,6.8,6.8,6.7,6.7,6.8,6.7,6.7,6.6,6.6,6.6,6.6,6.5,6.4,6.5,6.5,6.4,6.3,6.3,6.3,6.3],"mode":"lines","type":"scatter","marker":{"color":"rgba(165,42,42,1)","line":{"color":"rgba(165,42,42,1)"}},"textfont":{"color":"rgba(165,42,42,1)"},"error_y":{"color":"rgba(165,42,42,1)"},"error_x":{"color":"rgba(165,42,42,1)"},"line":{"color":"rgba(165,42,42,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>And compare it to the Norway, New Zealand, and France.</p>
+<pre class="r"><code>welfare_gen_nor &lt;- welfare_gen %&gt;%
+  filter(COUNTRY == &quot;Australia&quot; |
+           COUNTRY == &quot;Norway&quot; |
+           COUNTRY == &quot;New Zealand&quot; |
+           COUNTRY == &quot;France&quot;)
+
+plot_ly(welfare_gen_nor, x = ~YEAR, y = ~SKGEN, type = &quot;scatter&quot;, mode = &quot;lines&quot;, linetype = ~COUNTRY) %&gt;%
+  layout(title = &quot;Sickness Generosity in the OECD, 1970-2011&quot;,
+         xaxis = list(title = &quot;Year&quot;),
+         yaxis = list(title = &quot;Sickness Generosity&quot;))</code></pre>
+<div id="htmlwidget-4" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"visdat":{"24885c1a48f1":["function () ","plotlyVisDat"]},"cur_data":"24885c1a48f1","attrs":{"24885c1a48f1":{"x":{},"y":{},"mode":"lines","linetype":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Sickness Generosity in the OECD, 1970-2011","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Sickness Generosity"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[5.7,6,6.5,6.4,6.3,6.6,6.7,6.6,6.6,6.4,6.3,6.3,6.4,6.5,6.5,6.6,6.6,6.7,6.6,6.7,6.8,6.8,6.8,6.7,6.7,6.8,6.7,6.7,6.6,6.6,6.6,6.6,6.5,6.4,6.5,6.5,6.4,6.3,6.3,6.3,6.3],"mode":"lines","type":"scatter","name":"Australia","line":{"color":"rgba(31,119,180,1)","dash":"solid"},"marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[11.6,11.7,11.7,11.8,11.8,11.9,12,12,12,12.1,12.1,12.1,12.2,12.2,12.2,12.2,12.2,12.3,12.3,12.3,12.3,12.2,12.1,12.1,12.2,12.2,12.3,12.3,12.3,12.3,12.3,12.3,12.3,12.3,12.3,12.3],"mode":"lines","type":"scatter","name":"France","line":{"color":"rgba(255,127,14,1)","dash":"dash"},"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[6.4,6.5,6.6,6.6,6.5,6.6,6.7,6.7,6.6,6.7,6.7,6.8,6.2,6.1,6.1,6.2,6.3,6.2,6.1,6.1,5.9,5.9,5.9,5.9,5.9,5.8,5.8,5.7,6.5,6.5,6.5,6.4,6.4,6.5,6.5,6.4,6.4,6.4,6.3,6.3,6.3],"mode":"lines","type":"scatter","name":"New Zealand","line":{"color":"rgba(44,160,44,1)","dash":"dot"},"marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011],"y":[13.1,12.5,12.5,12.3,12.9,15.5,15.5,15.8,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,16.2,15.9,15.9,15.9,15.9,15.9,15.9,15.9,15.9],"mode":"lines","type":"scatter","name":"Norway","line":{"color":"rgba(214,39,40,1)","dash":"dashdot"},"marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Finally, let’s see how it all comes together in the OECD for the year 2010, by plotting the total generosity score for each country (TOTGEN) as a function of sickness and unemployment generosity mapped onto the y- and x-axis respectively.</p>
+<pre class="r"><code>## subset dataset by year of interest 
+welfare_gen_2010 &lt;- welfare_gen %&gt;%
+  filter(YEAR == 2010)
+
+plot_ly(welfare_gen_2010, x = ~UEGEN, y = ~SKGEN, text = ~COUNTRY, type = &quot;scatter&quot;, mode = &quot;markers&quot;,
+        color = ~TOTGEN, marker = list(size = ~TOTGEN * 1.2, opacity = 0.5)) %&gt;%
+  layout(title = &quot;Welfare Generosity in the OECD, 2011&quot;,
+         xaxis = list(title = &quot;Unemployment Generosity&quot;,
+                    gridcolor = &quot;rgb(255, 255, 255)&quot;,
+                    gridwidth = 2),
+         yaxis = list(title = &quot;Sickness Generosity&quot;,
+                   gridcolor = &quot;rgb(255, 255, 255)&quot;,
+                   gridwidth = 2),
+         paper_bgcolor = &quot;rgb(243, 243, 243)&quot;,
+         plot_bgcolor = &quot;rgb(243, 243, 243)&quot;,
+         showlegend = FALSE)</code></pre>
+<div id="htmlwidget-5" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5">{"x":{"visdat":{"24883ed8b45a":["function () ","plotlyVisDat"]},"cur_data":"24883ed8b45a","attrs":{"24883ed8b45a":{"x":{},"y":{},"text":{},"mode":"markers","marker":{"size":{},"opacity":0.5},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Welfare Generosity in the OECD, 2011","xaxis":{"domain":[0,1],"automargin":true,"title":"Unemployment Generosity","gridcolor":"rgb(255, 255, 255)","gridwidth":2},"yaxis":{"domain":[0,1],"automargin":true,"title":"Sickness Generosity","gridcolor":"rgb(255, 255, 255)","gridwidth":2},"paper_bgcolor":"rgb(243, 243, 243)","plot_bgcolor":"rgb(243, 243, 243)","showlegend":false,"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[7.1,10.4,14,8.1,9.5,9.2,11.1,10,11.1,5.7,5.3,11.9,7.1,14.2,8.2,13.9,8.3,10.7,7.3,11.7,10.6,4.2],"y":[6.3,10.3,13.7,5.2,12.2,12.1,12.3,13.3,10.6,9.6,7.6,13.8,6.3,15.9,14.9,13,8,0,7.3,10,9.5,0],"text":["Australia","Austria","Belgium","Canada","Denmark","Finland","France","Germany","Ireland","Italy","Japan","Netherlands","New Zealand","Norway","Sweden","Switzerland","United Kingdom","United States","Greece","Spain","Portugal","Korea"],"mode":"markers","marker":{"colorbar":{"title":"TOTGEN","ticklen":2},"cmin":14.5,"cmax":43.9,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[20.9,34.3,42.6,25.7,34.1,34.1,38,32,35.3,29.6,25.7,38.6,21.4,43.9,35.2,37.1,27.5,21.7,29.2,35.6,35.1,14.5],"size":[25.08,41.16,51.12,30.84,40.92,40.92,45.6,38.4,42.36,35.52,30.84,46.32,25.68,52.68,42.24,44.52,33,26.04,35.04,42.72,42.12,17.4,null,null,null,null,null,null,null,null,null,null],"opacity":0.5,"line":{"colorbar":{"title":"","ticklen":2},"cmin":14.5,"cmax":43.9,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[20.9,34.3,42.6,25.7,34.1,34.1,38,32,35.3,29.6,25.7,38.6,21.4,43.9,35.2,37.1,27.5,21.7,29.2,35.6,35.1,14.5]}},"type":"scatter","xaxis":"x","yaxis":"y","frame":null},{"x":[4.2,14.2],"y":[0,15.9],"type":"scatter","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"TOTGEN","ticklen":2},"cmin":14.5,"cmax":43.9,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[14.5,43.9],"line":{"color":"rgba(255,127,14,1)"}},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Welfare benefit schemes are extremely complex and depend on a number of economic and country-specific factors. Therefore there is great variation in welfare policy even among countries that are well-known for their strong safety nets. Norway though has by far the most generous unemployment and sickness insurance in the OECD as of 2010.</p>
+<p>Works Cited:</p>
+<ul>
+<li>Scruggs, Lyle, Detlef Jahn and Kati Kuitto. 2014. “Comparative Welfare Entitlements Data Set 2, Version 2014‐03.”</li>
+</ul>
+</div>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+      
+      
+      TAGS:
+      
+      
+      <a class="meta" href="/tags/r">R</a>, 
+      
+      <a class="meta" href="/tags/rstats">RSTATS</a>, 
+      
+      <a class="meta" href="/tags/tutorial">TUTORIAL</a>
+      
+      
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="/blog/collect-twitter-data-using-tags/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/blog">blog</a></span>
+  
+  
+  <span><a class="menu-item" href="/blog/linguistics-data-management/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">2020 © SCIP Unimelb. All rights reserved.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-168747617-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

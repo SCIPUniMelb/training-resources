@@ -1,0 +1,58 @@
+---
+title: "Linguistics Data Management"
+description: "These videos forms part of a  training course on Linguistic Data Management run by the University of Melbourne on March 26th 2020."
+author: Greg
+date: "2020-06-17"
+slug: linguistics-data-management 
+output: 
+ html_document:
+  toc: true
+  toc_float: true
+  toc_depth: 3
+categories:
+  - Elan
+  - FLEX
+  - Data Management
+  - LaMeta
+tags:
+  - Elan
+  - FLEX
+  - Data Management
+  - LaMeta
+---
+
+### Introduction
+
+These videos form part of a  training course on Linguistic Data Management run by Nick Thieberger at the University of Melbourne on March 26th 2020. The course was sponsored by SCIP, the Research Unit for Indigenous Language, and the Pacific and Regional Archive for Digital Sources in Endangered Cultures (PARADISEC), and the ARC Centre of Excellence for the Dynamics of Language.
+
+
+### Software required   
+
+The software demonstrated in these videos include:
+
+* **Elan** and **Simple Elan** which can be downloaded from [https://tla.mpi.nl/tools/tla-tools/elan/](https://tla.mpi.nl/tools/tla-tools/elan/) 
+
+* **FLEx** (Windows only) which can be downloaded from [https://software.sil.org/fieldworks/download/](https://software.sil.org/fieldworks/download/) 
+
+* **Lameta** which can be downloaded from [https://github.com/onset/laMETA/releases](https://github.com/onset/laMETA/releases) 
+
+&nbsp;
+
+### Linguistic data management
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bLMynrjpJyE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+&nbsp;
+
+### Introduction to Elan 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BCICa7R4SIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+&nbsp;
+
+### Introduction to FLEx 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lHaFi8DeCIg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+&nbsp;
+

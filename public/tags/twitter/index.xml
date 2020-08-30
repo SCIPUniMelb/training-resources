@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>twitter on </title>
+    <link>/tags/twitter/</link>
+    <description>Recent content in twitter on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 30 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/twitter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Build a Twitter dataset using TAGS</title>
+      <link>/blog/collect-twitter-data-using-tags/</link>
+      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/collect-twitter-data-using-tags/</guid>
+      <description>This tutorial looks at how to extract data from Twitter with tools that don’t require prior programming experience.</description>
+    </item>
+    
+    <item>
+      <title>Collect Twitter data using `rtweet`</title>
+      <link>/blog/harvest-tweets/</link>
+      <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/harvest-tweets/</guid>
+      <description>Introduction This tutorial demonstrates how to collect, filter and plot tweets using the R rtweet package.
+ Data and libraries The rtweet package has been designed by Michael W. Kearney to collect and organise Twitter data using Twitter’s Application Program Interfaces (API). Further details about the package can be found at:
+ rtweet Github repository
+ Michael Kearney’s Introduction to rtweet
+ Michael Kearney’s slides on ‘Collecting and Analyzing Twitter Data’</description>
+    </item>
+    
+  </channel>
+</rss>

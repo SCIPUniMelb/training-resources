@@ -1,0 +1,127 @@
+---
+title: "Build a Twitter dataset using TAGS"
+description: "This tutorial looks at how to extract data from Twitter with tools that don’t require prior programming experience."
+summary: "This tutorial looks at how to extract data from Twitter with tools that don’t require prior programming experience."
+date: "2020-05-30"
+slug: collect-twitter-data-using-tags
+categories:
+- Code        
+- R
+- social media
+tags:
+- twitter
+- TAGS 
+- tutorial
+- temp0st
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+![](https://i.imgur.com/kAeayo4.png)
+
+In this tutorial we will be using **TAGS** to extract data from Twitter and build an archive of tweets for analysis. TAGS is a free Google Sheet template which lets you setup and run automated collection of search results from Twitter.
+
+> To run this tutorial you will need to have Google and Twitter accounts.
+
+&nbsp; 
+
+## Step One: Set-up accounts for Google and Twitter.
+
+Go to TAGS (http://tags.hawksey.info/), click on **Get TAGS**, and click on TAGS **v6.1**.
+
+Currently TAGS isn’t a verified application so you need to give TAGS permissions to make some changes to your Google account. Continue by clicking on Advanced on the **This app isn’t verified** screen and following the instructions. 
+
+&nbsp; 
+
+![](https://i.imgur.com/YXN9Rka.png)
+
+&nbsp;  &nbsp; 
+
+A new browser tab should open, click on **Make a copy**. 
+
+&nbsp; 
+
+![](https://i.imgur.com/r8Im2XD.png)
+
+&nbsp;  &nbsp; 
+
+After your copy has been made open **TAGS > Setup Twitter Access** and follow the onscreen instructions  (when electing this option you’ll be promoted to authorize the script to run several services). *The good news is you only need to run the setup once.*
+
+Click on **Continue** in the dialogue pop-up that opens, and then on **Allow** to enable TAGS to operate within the spreadsheet.
+
+&nbsp; 
+
+![](https://i.imgur.com/4PDJJVm.png)
+
+&nbsp;  &nbsp; 
+
+Once your copy has been made open **TAGS > Setup Twitter Access**. You now need to connect your Twitter account to your new TAGS sheet.
+
+&nbsp; 
+
+![](https://i.imgur.com/MyARi7i.png)
+
+&nbsp;  &nbsp; 
+
+Follow the steps to authorise the app by inputting your Twitter username and password and click **Authorize app**.
+
+ &nbsp; 
+
+![](https://i.imgur.com/Wq57icT.png)
+
+&nbsp;  &nbsp; 
+
+**Success!** You're ready to go..
+
+&nbsp;  &nbsp; 
+
+## Step Two: Collect some tweets
+
+TAGS allows you to collect tweets by searching for *Account names* (@SOMEONE) or *hash-tag* (#SOMETHING). Remember that TAGS can only provide tweets from around about the past week. Enter your *query* for the type of tweets you'd like  to collect on the **Readme/Settings sheet**..
+
+&nbsp; 
+
+![](https://i.imgur.com/rEk5zU9.png)
+
+ &nbsp;  &nbsp; 
+
+.. and hit **TAGS > Run Now!** Once it's done you can see how many tweets you collected under **Stats / Number of Tweets**.
+
+&nbsp; 
+
+![](https://i.imgur.com/I0fV2yg.png)
+
+&nbsp;  &nbsp; 
+
+TAGS saves the results to the **Archive sheet**. Download the archive as an Excel or csv file as a backup and/or to clean or play with the data.
+
+&nbsp; 
+
+![](https://i.imgur.com/4lk4kj0.png)
+
+&nbsp;  &nbsp; 
+
+If you're not happy with the results or would like to search for something else, simply wipe the sheet and start again.
+
+&nbsp; 
+
+![](https://i.imgur.com/rcnC3zc.png)
+
+&nbsp;  
+ 
+> PRO-TIP: To build a larger archive of tweets under TAGS select **Update archive every hour**.
+
+ &nbsp;  &nbsp; 
+
+**Source:** [https://tags.hawksey.info/get-tags/](https://tags.hawksey.info/get-tags/) 
+
+ &nbsp;  &nbsp; 
+
+
+
+
+

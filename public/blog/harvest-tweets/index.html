@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+
+<base href="/">
+
+<title>
+   - Collect Twitter data using `rtweet` 
+</title>
+
+<meta name="generator" content="Hugo 0.74.3" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="en-US">
+ <table width="100%"; border="0">
+  <tr>
+    <td align="left" style="padding: 20px;"><img src="./img/unimelb-logo-small.png"></td>
+    <td align="right" style="padding: 20px;">
+      <a href="https://scip.unimelb.edu.au" target="_blank"><img src="./img/SCIP-logo-small.png" border="0" title="SCIP website"></a>
+      <table width="21%"; border="0">
+        <tr>
+            <td align="left"><a href="https://scip-unimelb.netlify.app/blog/"><img src="./img/back-32x32.png" border="0" title="back"></a></td>    
+            <td align="right"><a href="https://twitter.com/SCIPUniMelb" target="_blank"><img src="./img/twitter_32x32.png" border="0" title="@SCIPUniMelb"></a> &nbsp; </td>
+          </tr>
+        </table>      
+    </td>
+  </tr>
+</table>   
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">Collect Twitter data using `rtweet`</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON MAY 12, 2020 
+      
+      
+      
+      —
+      
+      
+      <a class="meta" href="/categories/code">CODE</a>, 
+      
+      <a class="meta" href="/categories/r">R</a>
+      
+      
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    
+    
+    
+
+
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>This tutorial demonstrates how to collect, filter and plot tweets using the R <code>rtweet</code> package.</p>
+</div>
+<div id="data-and-libraries" class="section level3">
+<h3>Data and libraries</h3>
+<p>The <code>rtweet</code> package has been designed by Michael W. Kearney to collect and organise Twitter data using Twitter’s Application Program Interfaces (API). Further details about the package can be found at:</p>
+<ul>
+<li><p><a href="https://github.com/ropensci/rtweet"><code>rtweet</code> Github repository</a></p></li>
+<li><p><a href="https://mkearney.github.io/blog/2017/06/01/intro-to-rtweet/">Michael Kearney’s Introduction to <code>rtweet</code></a></p></li>
+<li><p><a href="https://mkearney.github.io/nicar_tworkshop/">Michael Kearney’s slides on ‘Collecting and Analyzing Twitter Data’</a></p></li>
+</ul>
+<p><br /></p>
+</div>
+<div id="install-the-packages" class="section level3">
+<h3>Install the packages</h3>
+<pre class="r"><code># install.packages(&quot;pacman&quot;)
+pacman::p_load(tidyverse, tidytext, rtweet) 
+
+library(tidyverse) 
+library(ggplot2)
+library(tidytext)
+library(rtweet)
+library(knitr)</code></pre>
+<p><br /></p>
+</div>
+<div id="lets-go-get-some-tweets" class="section level3">
+<h3>Let’s go get some tweets</h3>
+<p><img src="https://vaderfan2187.files.wordpress.com/2017/05/legostarwarsmay4th-3.jpg" width="80%" style="display: block; margin: auto;" /></p>
+<p><br /></p>
+<p>Let’s search for tweets with the hash-tag <strong>#StarWars</strong>. In this query (<code>q</code>) we are searching with the hash tag <code>#StarWars</code>, we will take a total(<code>n</code>) of up to <code>1800</code> tweets, we are not interested in retweets or replies to tweets, and we are looking for tweets in English (<code>lang</code>).</p>
+<pre class="r"><code>tweets &lt;- search_tweets(q = &quot;#StarWars&quot;,
+                       n = 18000,
+                       include_rts = FALSE,
+                       `-filter` = &quot;replies&quot;,
+                       lang = &quot;en&quot;)</code></pre>
+<p><br /></p>
+</div>
+<div id="take-a-closer-look" class="section level3">
+<h3>Take a closer look</h3>
+<p>Check the first <strong>10 tweets</strong> and then export them all as a CSV file.</p>
+<pre class="r"><code>tweets %&gt;%
+  head(10) %&gt;%
+  select(created_at, screen_name, text, favorite_count, retweet_count)</code></pre>
+<pre><code>## # A tibble: 10 x 5
+##    created_at          screen_name  text            favorite_count retweet_count
+##    &lt;dttm&gt;              &lt;chr&gt;        &lt;chr&gt;                    &lt;dbl&gt;         &lt;dbl&gt;
+##  1 2020-06-25 20:39:49 DanTheGreat… &quot;When you come…              0             1
+##  2 2020-06-25 20:39:10 jaychocnh    &quot;We ready now …              0             0
+##  3 2020-06-25 20:39:10 jaychocnh    &quot;Mark 1 month …              0             0
+##  4 2020-06-24 23:00:46 jaychocnh    &quot;My Charizard …              0             0
+##  5 2020-06-24 22:51:07 jaychocnh    &quot;Somebody from…              0             0
+##  6 2020-06-25 20:38:23 swcutscenes  &quot;Watch #StarWa…              0             0
+##  7 2020-06-25 20:38:23 swcutscenes  &quot;Here is #cine…              0             0
+##  8 2020-06-25 13:47:07 swcutscenes  &quot;Like our Face…              0             0
+##  9 2020-06-25 03:42:39 swcutscenes  &quot;Only on https…              0             0
+## 10 2020-06-24 17:33:10 swcutscenes  &quot;Exclusive #St…              0             0</code></pre>
+<p><br /></p>
+<p>Why don’t we <strong>save</strong> all these tweets as a CSV file</p>
+<pre class="r"><code>write_as_csv(tweets, &quot;StarWars-tweets.csv&quot;)</code></pre>
+<p><br /></p>
+</div>
+<div id="lets-dig-a-bit-deeper" class="section level3">
+<h3>Let’s dig a bit deeper</h3>
+<p>Let’s look at the <strong>timeline</strong> of our tweets</p>
+<pre class="r"><code>ts_plot(tweets, &quot;hours&quot;) +
+  labs(x = NULL, y = NULL,
+       title = &quot;Frequency of tweets with a #StarWars hashtag&quot;,
+       subtitle = paste0(format(min(tweets$created_at), &quot;%d %B %Y&quot;), &quot; to &quot;, format(max(tweets$created_at),&quot;%d %B %Y&quot;)),
+       caption = &quot;Data collected from Twitter&#39;s REST API via rtweet&quot;) +
+  ggplot2::theme_classic()</code></pre>
+<p><img src="/blog/rtweet_example_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br /></p>
+<p>What was the top tweeting <strong>location</strong></p>
+<pre class="r"><code>tweets %&gt;%
+  filter(!is.na(place_full_name)) %&gt;%
+  count(place_full_name, sort = TRUE) %&gt;%
+  top_n(5)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   place_full_name        n
+##   &lt;chr&gt;              &lt;int&gt;
+## 1 Maryland, USA          6
+## 2 San Francisco, CA      5
+## 3 Salford, England       4
+## 4 Louisville, KY         3
+## 5 Zutphen, Nederland     3</code></pre>
+<p><br /></p>
+<p>The most <strong>retweeted</strong> tweet</p>
+<pre class="r"><code>tweets %&gt;%
+  arrange(-retweet_count) %&gt;%
+  slice(1) %&gt;%
+  select(created_at, screen_name, text, retweet_count)</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   created_at          screen_name   text                           retweet_count
+##   &lt;dttm&gt;              &lt;chr&gt;         &lt;chr&gt;                                  &lt;dbl&gt;
+## 1 2020-06-24 16:09:54 RamenDoodles… *Aggressive cuddling*! Saw tw…          1098</code></pre>
+<p><br /></p>
+<p>The most <strong>liked</strong> tweet</p>
+<pre class="r"><code>tweets %&gt;%
+  arrange(-favorite_count) %&gt;%
+  top_n(5, favorite_count) %&gt;%
+  select(created_at, screen_name, text, favorite_count)</code></pre>
+<pre><code>## # A tibble: 5 x 4
+##   created_at          screen_name   text                          favorite_count
+##   &lt;dttm&gt;              &lt;chr&gt;         &lt;chr&gt;                                  &lt;dbl&gt;
+## 1 2020-06-24 15:56:31 thisuserisan… &quot;Gender swap AU (just obi-wa…           6753
+## 2 2020-06-24 16:09:54 RamenDoodles… &quot;*Aggressive cuddling*! Saw …           3944
+## 3 2020-06-24 19:22:41 starwars      &quot;It’s The #StarWarsShow! Thi…           1623
+## 4 2020-06-24 21:10:21 TheSWU        &quot;‘The Rise Of Skywalker’ art…           1170
+## 5 2020-06-25 13:22:43 PhilSzostak   &quot;“A little after hours proje…            983</code></pre>
+<p><br /></p>
+<p>Who were the <strong>top</strong> tweeters</p>
+<pre class="r"><code>tweets %&gt;%
+  count(screen_name, sort = TRUE) %&gt;%
+  top_n(10) %&gt;%
+  mutate(screen_name = paste0(&quot;@&quot;, screen_name))</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    screen_name          n
+##    &lt;chr&gt;            &lt;int&gt;
+##  1 @bpdstarwars       124
+##  2 @FanthaTracks       30
+##  3 @StarWarsRP         27
+##  4 @tpnalliance        27
+##  5 @rcmadiax           24
+##  6 @ST4RW4RS           22
+##  7 @JediNewsNetwork    21
+##  8 @AnakinS03737461    17
+##  9 @VintageStarWars    16
+## 10 @ClassicStarWars    10</code></pre>
+<p><br /></p>
+<p>What was the most used <strong>emoji</strong></p>
+<pre class="r"><code># install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;hadley/emo&quot;)
+
+library(emo)
+tweets %&gt;%
+  mutate(emoji = ji_extract_all(text)) %&gt;%
+  unnest(cols = c(emoji)) %&gt;%
+  count(emoji, sort = TRUE) %&gt;%
+  top_n(10)</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    emoji     n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 🔗      128
+##  2 😍       35
+##  3 😂       30
+##  4 🤣       29
+##  5 👉       28
+##  6 ❤️       20
+##  7 🚨       16
+##  8 😎       15
+##  9 👍       14
+## 10 😁       14</code></pre>
+<p><br /></p>
+<p>What were the top 10 <strong>hashtags</strong></p>
+<pre class="r"><code>tweets %&gt;%
+  unnest_tokens(hashtag, text, &quot;tweets&quot;, to_lower = FALSE) %&gt;%
+  filter(str_detect(hashtag, &quot;^#&quot;),
+         hashtag != &quot;#StarWars&quot;) %&gt;%
+  count(hashtag, sort = TRUE) %&gt;%
+  top_n(10)</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    hashtag             n
+##    &lt;chr&gt;           &lt;int&gt;
+##  1 #starwars         809
+##  2 #eBay             135
+##  3 #TheMandalorian    86
+##  4 #Disney            47
+##  5 #marvel            45
+##  6 #STARWARS          45
+##  7 #Starwars          43
+##  8 #topps             41
+##  9 #babyyoda          40
+## 10 #darthvader        39
+## 11 #disney            39
+## 12 #LEGO              39</code></pre>
+<p><br /></p>
+<p>Top <strong>mentions</strong></p>
+<pre class="r"><code>tweets %&gt;%
+  unnest_tokens(mentions, text, &quot;tweets&quot;, to_lower = FALSE) %&gt;%
+  filter(str_detect(mentions, &quot;^@&quot;)) %&gt;%  
+  count(mentions, sort = TRUE) %&gt;%
+  top_n(10)</code></pre>
+<pre><code>## # A tibble: 11 x 2
+##    mentions            n
+##    &lt;chr&gt;           &lt;int&gt;
+##  1 @starwars          51
+##  2 @YouTube           26
+##  3 @HamillHimself     23
+##  4 @Disney            20
+##  5 @Poshmarkapp       14
+##  6 @EAStarWars        11
+##  7 @StarWars          11
+##  8 @eBay              10
+##  9 @Hasbro             9
+## 10 @LEGOGroup          9
+## 11 @themandalorian     9</code></pre>
+<p><br /></p>
+</div>
+<div id="add-a-touch-of-text-analysis" class="section level3">
+<h3>Add a touch of text analysis</h3>
+<p>Let’s examine the most frequently used words in these tweets</p>
+<pre class="r"><code>words &lt;- tweets %&gt;%
+  mutate(text = str_remove_all(text, &quot;&amp;amp;|&amp;lt;|&amp;gt;&quot;),
+         text = str_remove_all(text, &quot;\\s?(f|ht)(tp)(s?)(://)([^\\.]*)[\\.|/](\\S*)&quot;),
+         text = str_remove_all(text, &quot;[^\x01-\x7F]&quot;)) %&gt;%
+  unnest_tokens(word, text, token = &quot;tweets&quot;) %&gt;%
+  filter(!word %in% stop_words$word,
+         !word %in% str_remove_all(stop_words$word, &quot;&#39;&quot;),
+         str_detect(word, &quot;[a-z]&quot;),
+         !str_detect(word, &quot;^#&quot;),         
+         !str_detect(word, &quot;@\\S+&quot;)) %&gt;%
+  count(word, sort = TRUE)</code></pre>
+<p><br /></p>
+<p>Finally - let’s use the wordcloud package to create a visualisation of the word frequencies.</p>
+<pre class="r"><code>library(wordcloud)
+words %&gt;%
+  with(wordcloud(word, n, random.order = FALSE, max.words = 100, colors = &quot;#F29545&quot;))</code></pre>
+<p><img src="/blog/rtweet_example_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+      
+      
+      TAGS:
+      
+      
+      <a class="meta" href="/tags/rstats">RSTATS</a>, 
+      
+      <a class="meta" href="/tags/tutorial">TUTORIAL</a>, 
+      
+      <a class="meta" href="/tags/twitter">TWITTER</a>
+      
+      
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  <span><a class="menu-item" href="/blog/info/">&lt; prev | </a></span>
+  
+  
+  <span><a class="menu-item" href="/blog">blog</a></span>
+  
+  
+  <span><a class="menu-item" href="/blog/making-a-covid19-map-in-r-using-shiny-and-leaflet/"> | next &gt;</a></span>
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="/">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">2020 © SCIP Unimelb. All rights reserved.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-168747617-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+

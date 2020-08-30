@@ -1,0 +1,245 @@
+---
+title: "Collect Twitter data using `rtweet`"
+description: "This tutorial looks at how to collect and process Twitter data using the `rtweet` package."
+author: Greg
+date: "2020-05-12"
+slug: harvest-tweets
+output: 
+ html_document:
+  toc: true
+  toc_float: true
+  toc_depth: 3
+categories:
+  - R
+  - code
+tags:
+  - rstats
+  - tutorial
+  - twitter
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", warning = F, message = F)
+
+tweets = readr::read_csv("StarWars-tweets.csv")
+
+```
+
+### Introduction
+
+This tutorial demonstrates how to collect, filter and plot tweets using the R `rtweet` package.
+
+### Data and libraries
+
+The `rtweet` package has been designed by Michael W. Kearney to collect and organise Twitter data using Twitter's Application Program Interfaces (API). Further details about the package can be found at:
+
+* [`rtweet` Github repository](https://github.com/ropensci/rtweet)  
+
+* [Michael Kearney's Introduction to `rtweet`](https://mkearney.github.io/blog/2017/06/01/intro-to-rtweet/) 
+
+* [Michael Kearney's slides on 'Collecting and Analyzing Twitter Data'](https://mkearney.github.io/nicar_tworkshop/) 
+
+<br />
+
+### Install the packages
+
+```{r, message=FALSE}
+
+# install.packages("pacman")
+pacman::p_load(tidyverse, tidytext, rtweet) 
+
+library(tidyverse) 
+library(ggplot2)
+library(tidytext)
+library(rtweet)
+library(knitr)
+
+```
+
+<br />
+
+### Let's go get some tweets 
+
+```{r, echo=FALSE, out.width = "80%"}
+
+include_graphics("https://vaderfan2187.files.wordpress.com/2017/05/legostarwarsmay4th-3.jpg") 
+
+```
+
+<br />
+
+Let's search for tweets with the hash-tag **#StarWars**. In this query (`q`) we are searching with the hash tag `#StarWars`, we will take a total(`n`) of up to `1800` tweets, we are not interested in retweets or replies to tweets, and we are looking for tweets in English (`lang`).  
+
+
+```{r, echo=TRUE, message=FALSE, eval=FALSE}
+
+tweets <- search_tweets(q = "#StarWars",
+                       n = 18000,
+                       include_rts = FALSE,
+                       `-filter` = "replies",
+                       lang = "en")
+```
+
+<br />
+
+### Take a closer look  
+
+Check the first **10 tweets** and then export them all as a CSV file.  
+
+```{r, message=FALSE}
+
+tweets %>%
+  head(10) %>%
+  select(created_at, screen_name, text, favorite_count, retweet_count)
+```
+
+<br />
+
+Why don't we **save** all these tweets as a CSV file
+
+```{r, message=FALSE}
+
+write_as_csv(tweets, "StarWars-tweets.csv")
+```
+
+<br />
+
+### Let's dig a bit deeper
+
+Let's look at the **timeline** of our tweets
+
+```{r, message=FALSE}
+
+ts_plot(tweets, "hours") +
+  labs(x = NULL, y = NULL,
+       title = "Frequency of tweets with a #StarWars hashtag",
+       subtitle = paste0(format(min(tweets$created_at), "%d %B %Y"), " to ", format(max(tweets$created_at),"%d %B %Y")),
+       caption = "Data collected from Twitter's REST API via rtweet") +
+  ggplot2::theme_classic()
+```
+
+<br />
+
+What was the top tweeting **location**
+
+```{r, message=FALSE}
+
+tweets %>%
+  filter(!is.na(place_full_name)) %>%
+  count(place_full_name, sort = TRUE) %>%
+  top_n(5)
+```
+
+<br />
+
+The most **retweeted** tweet
+
+```{r, message=FALSE}
+
+tweets %>%
+  arrange(-retweet_count) %>%
+  slice(1) %>%
+  select(created_at, screen_name, text, retweet_count)
+```
+
+<br />
+
+The most **liked** tweet
+
+```{r, message=FALSE}
+
+tweets %>%
+  arrange(-favorite_count) %>%
+  top_n(5, favorite_count) %>%
+  select(created_at, screen_name, text, favorite_count)
+```
+
+<br />
+
+Who were the **top** tweeters
+
+```{r, message=FALSE}
+
+tweets %>%
+  count(screen_name, sort = TRUE) %>%
+  top_n(10) %>%
+  mutate(screen_name = paste0("@", screen_name))
+```
+
+<br />
+
+What was the most used **emoji**
+
+```{r, message=FALSE}
+
+# install.packages("devtools")
+devtools::install_github("hadley/emo")
+
+library(emo)
+tweets %>%
+  mutate(emoji = ji_extract_all(text)) %>%
+  unnest(cols = c(emoji)) %>%
+  count(emoji, sort = TRUE) %>%
+  top_n(10)
+```
+
+<br />
+
+What were the top 10 **hashtags**
+
+```{r, message=FALSE}
+
+tweets %>%
+  unnest_tokens(hashtag, text, "tweets", to_lower = FALSE) %>%
+  filter(str_detect(hashtag, "^#"),
+         hashtag != "#StarWars") %>%
+  count(hashtag, sort = TRUE) %>%
+  top_n(10)
+```
+
+<br />
+
+Top **mentions**
+
+```{r, message=FALSE}
+
+tweets %>%
+  unnest_tokens(mentions, text, "tweets", to_lower = FALSE) %>%
+  filter(str_detect(mentions, "^@")) %>%  
+  count(mentions, sort = TRUE) %>%
+  top_n(10)
+```
+
+<br />
+
+### Add a touch of text analysis
+
+Let's examine the most frequently used words in these tweets
+
+```{r, message=FALSE}
+
+words <- tweets %>%
+  mutate(text = str_remove_all(text, "&amp;|&lt;|&gt;"),
+         text = str_remove_all(text, "\\s?(f|ht)(tp)(s?)(://)([^\\.]*)[\\.|/](\\S*)"),
+         text = str_remove_all(text, "[^\x01-\x7F]")) %>%
+  unnest_tokens(word, text, token = "tweets") %>%
+  filter(!word %in% stop_words$word,
+         !word %in% str_remove_all(stop_words$word, "'"),
+         str_detect(word, "[a-z]"),
+         !str_detect(word, "^#"),         
+         !str_detect(word, "@\\S+")) %>%
+  count(word, sort = TRUE)
+```
+
+<br />
+
+Finally - let's use the wordcloud package to create a visualisation of the word frequencies.
+
+```{r, message=FALSE}
+
+library(wordcloud)
+words %>%
+  with(wordcloud(word, n, random.order = FALSE, max.words = 100, colors = "#F29545"))
+```
+
+

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on </title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Data Management</title>
+      <link>/tags/data-management/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-management/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Elan</title>
+      <link>/tags/elan/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/elan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FLEX</title>
+      <link>/tags/flex/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/flex/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LaMeta</title>
+      <link>/tags/lameta/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/lameta/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rstats</title>
+      <link>/tags/rstats/</link>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TAGS</title>
+      <link>/tags/tags/</link>
+      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tags/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>temp0st</title>
+      <link>/tags/temp0st/</link>
+      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/temp0st/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>twitter</title>
+      <link>/tags/twitter/</link>
+      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/twitter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>/tags/about/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>/tags/about/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>aviato</title>
+      <link>/tags/aviato/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>/tags/aviato/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bachman</title>
+      <link>/tags/bachman/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>/tags/bachman/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pied piper</title>
+      <link>/tags/pied-piper/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>/tags/pied-piper/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

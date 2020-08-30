@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>/</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linguistics Data Management</title>
+      <link>/blog/linguistics-data-management/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/linguistics-data-management/</guid>
+      <description>Introduction These videos form part of a training course on Linguistic Data Management run by Nick Thieberger at the University of Melbourne on March 26th 2020. The course was sponsored by SCIP, the Research Unit for Indigenous Language, and the Pacific and Regional Archive for Digital Sources in Endangered Cultures (PARADISEC), and the ARC Centre of Excellence for the Dynamics of Language.
+ Software required The software demonstrated in these videos include:</description>
+    </item>
+    
+    <item>
+      <title>Evolution of welfare policies in the OECD: An interactive web-based mapping exercise using R and Plotly</title>
+      <link>/blog/mapping-unemployment-generosity-across-the-oecd/</link>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/mapping-unemployment-generosity-across-the-oecd/</guid>
+      <description>Introduction JobSeeker and JobKeeper benefits have been at the forefront of the national debate on government assistance in the post-Covid Australian economic landscape. Yet even before the global pandemic hit, welfare benefits were a controversial and often polarizing issue in Australia. Often missing from the national debate though is a discussion around how welfare benefits paid by the Australian government compare with those from other “welfare states” like Norway, France, and the UK.</description>
+    </item>
+    
+    <item>
+      <title>Build a Twitter dataset using TAGS</title>
+      <link>/blog/collect-twitter-data-using-tags/</link>
+      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/collect-twitter-data-using-tags/</guid>
+      <description>This tutorial looks at how to extract data from Twitter with tools that don’t require prior programming experience.</description>
+    </item>
+    
+    <item>
+      <title>Making a Covid-19 map in R using Shiny and Leaflet</title>
+      <link>/blog/making-a-covid19-map-in-r-using-shiny-and-leaflet/</link>
+      <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/making-a-covid19-map-in-r-using-shiny-and-leaflet/</guid>
+      <description>Introduction There have been a number of interactive Covid-19 maps released since the beginning of the pandemic. Johns Hopkins University was among the first of many institutions to create an interactive visualization illustrating the transmission dynamics of the coronavirus. In this tutorial, we will go combine a number of packages in R to create a similar interactive transmission map.
+ Required packages and data No previous coding experience is necessary to follow along with this tutorial.</description>
+    </item>
+    
+    <item>
+      <title>test</title>
+      <link>/post/test/</link>
+      <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Collect Twitter data using `rtweet`</title>
+      <link>/blog/harvest-tweets/</link>
+      <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/harvest-tweets/</guid>
+      <description>Introduction This tutorial demonstrates how to collect, filter and plot tweets using the R rtweet package.
+ Data and libraries The rtweet package has been designed by Michael W. Kearney to collect and organise Twitter data using Twitter’s Application Program Interfaces (API). Further details about the package can be found at:
+ rtweet Github repository
+ Michael Kearney’s Introduction to rtweet
+ Michael Kearney’s slides on ‘Collecting and Analyzing Twitter Data’</description>
+    </item>
+    
+    <item>
+      <title>Introduction to R the Tidy Way</title>
+      <link>/blog/info/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/info/</guid>
+      <description>Before the Workshop  Download and Install R You want to download the base version as if you are installing R for the time. If you already have R on your computer make sure that it is the latest version(3.6.2). If it is not the latest version then please update it. Install RStudio. Free version should suffice. Join RStudio Cloud. If you already have a Google (or a GitHub) account you can log in using either of these accounts directly.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Erlich administers the Hacker Hostel, a tech incubator where Richard, Big Head, Dinesh, and Gilfoyle live and work in exchange for 10 percent of their potential businesses. Erlich clings to his glory days, when he sold aviation start-up Aviato, a move that, at least in his mind, qualifies him to be a svengali lording over other tech nerds. He still drives a car emblazoned with multiple Aviato logos and smokes copious amounts of weed.</description>
+    </item>
+    
+    <item>
+      <title>CodeRag</title>
+      <link>/coderag/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>/coderag/</guid>
+      <description>Notes: This article originally appeared in CodeRag.
+Code/Rag has always been more than just another online tech blog. We strive to be part of the tech community—serving an essential, fundamental look at what’s going on in the valley. It’s why our tagline is “Know Your Code.” We think a tech news publication should know the basics. Be the source. Get down to brass tacks. We can do that because we’re part of the very ecosystem we’re reporting on.</description>
+    </item>
+    
+  </channel>
+</rss>

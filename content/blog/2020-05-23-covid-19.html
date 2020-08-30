@@ -1,0 +1,105 @@
+---
+title: "Making a Covid-19 map in R using Shiny and Leaflet"
+description: "There have been a number of interactive Covid-19 maps released since the beginning of the pandemic. Johns Hopkins University was among the first of many institutions to create an interactive visualization illustrating the transmission dynamics of the coronavirus. In this tutorial, we will go combine a number of packages in R to create a similar interactive transmission map."
+author: Trent
+date: "2020-05-23"
+output: html_document
+runtime: shiny
+slug: making-a-covid19-map-in-R-using-shiny-and-leaflet
+categories:
+  - code
+  - R
+tags:
+  - "rstats"
+  - tutorial
+  - R
+---
+
+
+
+<div id="section-introduction" class="section level2">
+<h2>Introduction</h2>
+<p>There have been a number of interactive Covid-19 maps released since the beginning of the pandemic. Johns Hopkins University was among the first of many institutions to create an <a href="https://coronavirus.jhu.edu/map.html">interactive visualization</a> illustrating the transmission dynamics of the coronavirus. In this tutorial, we will go combine a number of packages in R to create a similar interactive transmission map.</p>
+</div>
+<div id="section-required-packages-and-data" class="section level2">
+<h2>Required packages and data</h2>
+<p>No previous coding experience is necessary to follow along with this tutorial. However, you will need to install <a href="https://www.r-project.org/">R</a> and <a href="https://rstudio.com/">R Studio</a>, which is a code editor for R to be able to run the code on your machine.</p>
+<p>We will make use of a number of basic functions available in <a href="https://shiny.rstudio.com/">Shiny</a> and <a href="https://rstudio.github.io/leaflet/">Leaflet</a> to create our map. Shiny is an R package that can create and launch web apps straight from the R Studio environment. Leaflet is an open-source JavaScript library used to create interactive maps. It is perhaps the most widely used and recognized package for mapping geospatial data.</p>
+<p>The <a href="/data/coronavirus_data.csv">dataset</a> for this tutorial comes from the World Health Organization. To keep things simple, the dataset only includes the number of cases over the course of the first 30 days of the pandemic. This dataset includes latitude and longitude information for each country with at least one positive case in the first thirty days of the pandemic.</p>
+</div>
+<div id="section-code" class="section level2">
+<h2>Code</h2>
+<p>The first step is to install and load the libraries we need to create the map. We will use <code>tidyverse</code> to load and reshape the .csv dataset from wide to long format, <code>leaflet</code> and <code>shiny</code> to create and animate our map, and <code>RColorBrewer</code> to specify the color gradient we want to use on the map.</p>
+<pre class="r"><code># install and load necessary libraries
+# install.packages(c(tidyverse&quot;, &quot;shiny&quot;, &quot;leaflet&quot;, &quot;RColorBrewer&quot;))
+library(tidyverse)
+library(shiny)
+library(leaflet)
+library(RColorBrewer)
+
+# load dataset
+ncov &lt;- read_csv(&quot;coronavirus_data.csv&quot;)
+
+# turn to data.frame and reshape
+ncov_d &lt;- as.data.frame(ncov)
+ncov_l &lt;- reshape(ncov_d,
+                  direction = &quot;long&quot;,
+                  varying = list(names(ncov_d)[6:35]),
+                  v.names = &quot;value&quot;,
+                  idvar = c(&quot;country&quot;, &quot;slat&quot;, &quot;slon&quot;, &quot;elat&quot;, &quot;elon&quot;),
+                  timevar = &quot;day&quot;)
+
+# color palette
+reds &lt;- colorNumeric(&quot;Reds&quot;, domain = NULL)</code></pre>
+<p>Next, we need to specify the user interface properties (e.g., time slider and looping animation).</p>
+<pre class="r"><code># specify shiny user interface and time slider
+ui &lt;- bootstrapPage(tags$style(type = &quot;text/css&quot;, &quot;html, body, .leaflet {width:100%; height:100%}&quot;),
+                    leafletOutput(&quot;map&quot;, width = &quot;100%&quot;, height = &quot;100%&quot;),
+                    # position and properties of the time slider
+                    absolutePanel(top = 10, left = 300, draggable = TRUE,
+                                  # slider title, step increments, and ticks
+                                  sliderInput(&quot;integer&quot;, &quot;Days since first reported case as of January 21, 2020:&quot;,ticks = FALSE, min = min(ncov_l$day), max = max(ncov_l$day), value = 1:30, step = 1,
+                                              animate = animationOptions(interval = 1000, loop = TRUE))))</code></pre>
+<p>We will then need to specify the properties for the back end, including the background map and the reactive layer. For a complete explanation of how <code>ui</code> and <code>server</code> interact to create the map, refer to the <a href="https://shiny.rstudio.com/">shiny web documentation</a>.</p>
+<pre class="r"><code># shiny server input/output
+server &lt;- function(input, output, session) {
+  filteredData &lt;- reactive({
+    ncov_l %&gt;%
+      filter(day &gt;= input$integer[1] &amp; day &lt;= input$integer[2])
+  })
+  output$map &lt;- renderLeaflet({
+    reds &lt;- colorNumeric(&quot;Reds&quot;, domain = NULL)
+    leaflet(ncov_l) %&gt;%
+      addProviderTiles(providers$CartoDB.DarkMatterNoLabels) %&gt;%
+      # set boundaries for map
+      fitBounds(lng1 = min(ncov_l$elon), 
+                lat1 = min(ncov_l$elat), 
+                lng2 = max(ncov_l$elon), 
+                lat2 = max(ncov_l$elat)) %&gt;%
+      # add legend for the map
+      addLegend(&quot;bottomleft&quot;, pal = reds, values = ~value,
+                title = &quot;Confirmed Cases &lt;br&gt; (data: WHO.int)&quot;,
+                opacity = 0.5,
+                bins = 4)
+  })
+  observe({
+    leafletProxy(&quot;map&quot;, data = filteredData()) %&gt;%
+      clearMarkers() %&gt;%
+      addCircleMarkers(lng = ~elon,
+                       lat = ~elat,
+                       radius = ~log(value) * 3.5,
+                       weight = 1,
+                       opacity = 10,
+                       color = ~ifelse(value &gt; 0, reds(value), NA),
+                       popup = ~paste0(country, &quot;,  &quot;, value, &quot; cases&quot;))
+  }) 
+}</code></pre>
+<p>The last step is to run the app.</p>
+<pre class="r"><code>shinyApp(ui, server, options = list(height = 550))      </code></pre>
+<iframe height="600" width="100%" frameborder="no" src="https://monarque13.shinyapps.io/Covid_19_app/">
+</iframe>
+</div>
+<div id="section-conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>The app is live! To see the day-to-day increase in transmissions, we can align the two slider markers and play the app. The app will loop once it reaches the day 30. The code above will work with any dataset that has latitude and longitude information and a time-varying frequency variable. And that’s it!</p>
+</div>

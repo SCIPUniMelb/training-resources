@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>social media on </title>
+    <link>/categories/social-media/</link>
+    <description>Recent content in social media on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 30 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/social-media/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Build a Twitter dataset using TAGS</title>
+      <link>/blog/collect-twitter-data-using-tags/</link>
+      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/collect-twitter-data-using-tags/</guid>
+      <description>This tutorial looks at how to extract data from Twitter with tools that don’t require prior programming experience.</description>
+    </item>
+    
+  </channel>
+</rss>
