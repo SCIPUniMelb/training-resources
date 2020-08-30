@@ -1,6 +1,6 @@
 ## Basic Configuration
 
-baseurl = "https://elegant-booth-db408f.netlify.app"
+baseurl = "https://hungry-lumiere-46bf5d.netlify.app"
 builddrafts = false
 canonifyurls = false
 languageCode = "en-US"
