@@ -1,6 +1,6 @@
 ## Basic Configuration
 
-baseurl = "https://hungry-lumiere-46bf5d.netlify.app"
+baseurl = "https://scip-unimelb1.netlify.app"
 builddrafts = false
 canonifyurls = false
 languageCode = "en-US"
